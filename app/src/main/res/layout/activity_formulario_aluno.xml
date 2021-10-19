@@ -26,11 +26,4 @@
         android:inputType="textEmailAddress"
          android:layout_height="wrap_content"/>
 
-    <Button android:id="@+id/activity_formulario_aluno_button"
-        android:layout_width="match_parent"
-        android:layout_margin="8dp"
-        android:text="Salvar"
-        android:layout_height="wrap_content" />
-
-
 </LinearLayout>

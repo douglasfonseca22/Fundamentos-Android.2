@@ -4,7 +4,6 @@ import static com.example.agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +20,6 @@ import com.example.agenda.R;
 import com.example.agenda.model.Aluno;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.List;
-
 public class ListaAlunoActivity extends AppCompatActivity {
 
     public static final String TITULO_APPBAR = "Lista de alunos";
@@ -37,9 +34,9 @@ public class ListaAlunoActivity extends AppCompatActivity {
         setTitle(TITULO_APPBAR);
         configuraFabNovoAluno();
         configuraLista();
-        dao.salva(new Aluno("Douglas", "1122223333", "alex@alura.com.br"));
-        dao.salva(new Aluno("Fran", "1122223333", "fran@gmail.com"));
-    }
+            dao.salva(new Aluno("Douglas", "1122223333", "alex@alura.com.br"));
+            dao.salva(new Aluno("Fran", "1122223333", "fran@gmail.com"));
+        }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -49,10 +46,13 @@ public class ListaAlunoActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        //AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
-        remove(alunoEscolhido);
+
+        int itemId = item.getItemId();
+        if(itemId == R.id.activity_lista_aluno_menu_remover) {
+            AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
+            remove(alunoEscolhido);
+        }
         return super.onContextItemSelected(item);
     }
 
@@ -86,20 +86,7 @@ public class ListaAlunoActivity extends AppCompatActivity {
         ListView listaDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
         configuraAdapter(listaDeAlunos);
         configuraListenerDeCliquePorItem(listaDeAlunos);
-        ConfiguraListenerDeCliqueLongoPorItem(listaDeAlunos);
         registerForContextMenu(listaDeAlunos);
-    }
-
-    private void ConfiguraListenerDeCliqueLongoPorItem(ListView listaDeAlunos) {
-        listaDeAlunos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int posicao, long id) {
-                Log.i("CliqueLongo", String.valueOf(posicao));
-                Aluno alunoEscolhido = (Aluno) adapterView.getItemAtPosition(posicao);
-                remove(alunoEscolhido);
-                return false;
-            }
-        });
     }
 
     private void remove(Aluno aluno) {
